@@ -1,0 +1,124 @@
+.wrapper {
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 10px;
+    max-width: 600px;
+
+    h3 {
+        grid-area: header;
+        color: #02ff7c;
+    }
+
+    .steps-container {
+        max-width: 600px;
+
+        padding: 10px;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-areas:
+            "header . . . . . . ."
+            "daily daily daily charts charts charts charts charts"
+            "progress progress progress progress progress progress progress progress"
+            "toggle toggle slider slider slider slider date date"
+            ". . . slider-value slider-value . . .";
+
+        .steps-chart {
+            grid-area: charts;
+            justify-self: center;
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            height: 50px;
+            align-items: end;
+
+            .column-wrapper {
+                display: flex;
+                flex-direction: column;
+                justify-content: end;
+                align-items: center;
+                height: 100%;
+                position: relative;
+                
+                .today-marker {
+                    color: #02ff7c;
+                    margin-bottom: 5px;
+                    position: absolute;
+                }
+
+                .step-column {
+                    width: 5px;
+                    background-color: #02ff7c;
+                    border-radius: 4px;
+                    transition: height 0.3s ease-in-out;
+
+                    &.today {
+                        background-color: #02ff7c;
+                    }
+
+                    &.inactive {
+                        background-color: #eee;
+                    }
+                }
+            }
+        }
+
+        .daily-text {
+            grid-area: daily;
+            justify-self: flex-start;
+            font-size: 1.5rem;
+
+            span {
+                font-size: .75rem;
+            }
+        }
+
+        .progress-bar {
+            grid-area: progress;
+            width: 100%;
+            display: flex;
+            min-height: 50px;
+            background-color: #f3f3f3;
+            position: relative;
+
+            .progress-percentage {
+                background-color: #02ff7c;
+            }
+
+            .percent-text {
+                position: absolute;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    }
+
+    input {
+        grid-area: slider;
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .col-value {
+        grid-area: slider-value;
+        margin: 0;
+    }
+
+    .date {
+        grid-area: date;
+        text-align: end;
+        align-self: center;
+    }
+
+    .toggle-range {
+        grid-area: toggle;
+        background-color: #02ff7c;
+        color: white;
+        padding:  10px 15px;
+        margin: 10px 10px;
+        border-radius: 20px;
+        border: none;
+    }
+}
