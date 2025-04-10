@@ -1,49 +1,71 @@
-import React, { useState, useEffect } from "react";
 import { IStepPeriod } from "../types/data";
 import { Widget } from "./widget/Widget";
 
-const App: React.FC = () => {
-    const [stepData, setStepData] = useState<IStepPeriod[]>([]);
-
-    const generateStepsData = (numOfPeriods: number, startDate: Date, endDate: Date): IStepPeriod[] => {
-        const currentData = new Date();
+const App = () => {
+    const generateStepsData = (): IStepPeriod[] => {
+        const now = new Date();
+        const startDate = new Date(now.setHours(0, 0, 0, 0));
+        const endDate = new Date(now.setHours(23, 59, 59, 999));
 
         const generatedData: IStepPeriod[] = [];
-        const totalMilliseconds = endDate.getTime() - startDate.getTime();
-        const periodMilliseconds = Math.ceil(totalMilliseconds / numOfPeriods);
-        
+        let currentStartTime = startDate.getTime();
 
-        for (let i = 0; i < numOfPeriods; ++i) {
-            let periodStartDate = new Date(startDate.getTime() + i * periodMilliseconds);
-            let periodEndDate = new Date(periodStartDate.getTime() + periodMilliseconds - 1);
+        while (currentStartTime < endDate.getTime()) {
+            const periodDuration = getRandomDuration();
+            let periodEndTime = currentStartTime + periodDuration;
 
-            if (periodEndDate > endDate) {
-                periodEndDate.setTime(endDate.getTime());
+            if (periodEndTime > endDate.getTime()) {
+                periodEndTime = endDate.getTime();
             }
+            
+            const offsetMs = 3 * 60 * 60 * 1000; // 3 години в мілісекундах
 
-            const isFuturePeriod = periodStartDate > currentData;
-            const randomSteps = isFuturePeriod ? 0 : Math.floor(Math.random() * 8000);
+            const periodStartDate = new Date(currentStartTime  + offsetMs);
+            const periodEndDate = new Date(periodEndTime + offsetMs);
+
+            const randomSteps = Math.floor(Math.random() * (800));
 
             generatedData.push({
-                startDate: new Date(periodStartDate.getTime() - periodStartDate.getTimezoneOffset() * 60000).toISOString(),
-                endDate: new Date(periodEndDate.getTime() - periodEndDate.getTimezoneOffset() * 60000).toISOString(),
+                startDate: periodStartDate.toISOString(),
+                endDate: periodEndDate.toISOString(),
                 steps: randomSteps,
             });
+
+            const gapDuration = getRandomGap();
+            currentStartTime = periodEndTime + gapDuration;
         }
 
+        console.log("Generated data:", generatedData);
         return generatedData;
     };
 
-    const startDate = new Date('2025-03-10T08:00:00'); 
-    const endDate = new Date('2025-03-27T08:00:00');
-    const numOfPeriods = 24;
+    const getRandomDuration = (): number => {
+        const possibleDurations = [
+            10 * 1000,    
+            30 * 1000,    
+            1 * 60 * 1000,   
+            5 * 60 * 1000,    
+            15 * 60 * 1000,  
+            30 * 60 * 1000,   
+            1 * 60 * 60 * 1000,  
+            2 * 60 * 60 * 1000   
+        ];
+        return possibleDurations[Math.floor(Math.random() * possibleDurations.length)];
+    };
 
-    useEffect(() => {
-        const stepData = generateStepsData(numOfPeriods, startDate, endDate);
-        setStepData(stepData);
-    }, []);
+    const getRandomGap = (): number => {
+        const possibleGaps = [
+            5 * 60 * 1000,   
+            15 * 60 * 1000,   
+            30 * 60 * 1000,   
+            1 * 60 * 60 * 1000,   
+            2 * 60 * 60 * 1000,   
+            3 * 60 * 60 * 1000   
+        ];
+        return possibleGaps[Math.floor(Math.random() * possibleGaps.length)];
+    };
 
-    return <Widget stepData={stepData} />;
+    return <Widget stepData={generateStepsData()} />;
 };
 
 export { App };

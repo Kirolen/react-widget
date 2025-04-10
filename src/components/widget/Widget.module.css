@@ -1,0 +1,123 @@
+.wrapper {
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 10px;
+    max-width: 600px;
+
+    h3 {
+        color: #02ff7c;
+    }
+
+    .stepsContainer {
+        max-width: 600px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+
+        .infoContainer {
+            display: flex;
+
+            .stepsChart {
+                display: flex;
+                justify-content: space-around;
+                height: 50px;
+                width: 70%;
+
+                .stepColumn {
+                    width: 5px;
+                    background-color: #02ff7c;
+                    position: relative;
+                    border-radius: 4px;
+                    align-self: flex-end;
+                    transition: height 0.3s ease-in-out;
+
+                    &.inactive {
+                        background-color: #eee;
+                    }
+                }
+
+                .stepColumn.today::before {
+                    content: "★";
+                    position: absolute;
+                    color: #02ff7c;
+                    font-size: 1.2rem;
+                    top: -25px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+            }
+
+            .dailyText {
+                font-size: 1.5rem;
+                width: 30%;
+
+                span {
+                    font-size: .75rem;
+                }
+            }
+        }
+
+        .progressBar {
+            grid-area: progress;
+            width: 100%;
+            display: flex;
+            min-height: 50px;
+            background-color: #f3f3f3;
+            position: relative;
+
+            .progressPercentage {
+                background-color: #02ff7c;
+            }
+
+            .percentText {
+                position: absolute;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    }
+
+    .contolePanel {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .colInfo {
+            display: flex;
+            flex-direction: column;
+            width: 60%;
+            align-items: center;
+
+            input {
+                width: 100%;
+                margin: 0;
+            }
+
+            .colValue {
+                margin: 0;
+            }
+
+        }
+
+
+        .date {
+            text-align: end;
+            width: 15%;
+        }
+
+        .toggleRange {
+            background-color: #02ff7c;
+            color: white;
+            padding: 10px 15px;
+            margin: 10px 10px;
+            width: 25%;
+            border-radius: 20px;
+            border: none;
+        }
+    }
+
+
+}
