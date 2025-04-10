@@ -97,7 +97,7 @@ const Widget = ({ stepData }: WidgetProps) => {
                                 <div
                                     className={`${styles.stepColumn} ${isInactive ? styles.inactive : ""} ${isCurrentPeriod ? styles.today : ""}`}
                                     style={{ height: `${isInactive ? 10 : heightPercentage}%` }}
-                                > <p>{period.totalSteps}</p></div>
+                                ></div>
                                 
                             );
                         })}
